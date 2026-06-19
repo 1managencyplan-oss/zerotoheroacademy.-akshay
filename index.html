@@ -180,9 +180,9 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
 /* MOBILE */
 @media(max-width:768px){
   /* Hero */
-  .two-col { flex-direction:column; gap:20px; }
-  .right-panel { width:100%; }
-  .video-box { min-height:220px; }
+  .two-col { flex-direction:column !important; gap:20px; }
+  .right-panel { width:100% !important; flex-shrink:0; }
+  .video-box { min-height:220px; width:100% !important; flex:none !important; }
   .headline h1 { font-size:26px; }
   .sub-text { font-size:14px; }
 
