@@ -209,7 +209,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
 
   /* About */
   .about-inner { flex-direction:column; text-align:center; }
-  .about-photo { width:160px; height:200px; margin:0 auto; }
+  .about-photo { width:240px; height:300px; margin:0 auto; }
+  .about-sec p[style*="font-size:12px"] { font-size:10px !important; letter-spacing:0 !important; padding:0 10px; }
   .about-stats { justify-content:center; }
 
   /* Secrets grid */
@@ -219,9 +220,10 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
   div[style*="grid-template-columns:repeat(5"] { grid-template-columns:repeat(2,1fr) !important; }
 
   /* Bar chart */
-  #bar-chart { gap:8px; height:200px; }
-  .bar-label-top { font-size:11px; }
-  .bar-label-bot { font-size:10px; }
+  #bar-chart { gap:5px; height:180px; padding:0 4px; }
+  .bar-label-top { font-size:9px; }
+  .bar-label-bot { font-size:9px; }
+  .bar-col { max-width:none !important; }
 
   /* Steps */
   .fomo-sec .fomo-item { flex-direction:column; gap:8px; }
