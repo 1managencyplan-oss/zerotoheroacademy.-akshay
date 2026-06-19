@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero to Hero Academy — Live Workshop — ₹99 Only</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#fff; }
+
+/* MODAL */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; padding:20px; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#0d1030; border:1px solid rgba(251,191,36,0.3); border-radius:20px; width:100%; max-width:480px; overflow:hidden; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.6); }
+.modal-header { background:linear-gradient(135deg,#1a1f4e,#0d1030); padding:28px 28px 20px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.modal-header h2 { font-size:22px; font-weight:900; color:#fff; margin-bottom:6px; }
+.modal-header p { font-size:13px; color:#94a3b8; }
+.modal-price { display:inline-flex; align-items:center; gap:10px; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); border-radius:8px; padding:8px 16px; margin-top:12px; }
+.modal-price .strike { font-size:14px; color:#64748b; text-decoration:line-through; }
+.modal-price .actual { font-size:20px; font-weight:900; color:#fbbf24; }
+.modal-price .tag { font-size:12px; color:#22c55e; font-weight:700; background:rgba(34,197,94,0.1); padding:3px 8px; border-radius:4px; }
+.modal-body { padding:24px 28px; }
+.modal-body input { width:100%; background:#1a1f4e; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:14px 16px; font-size:15px; color:#fff; margin-bottom:14px; outline:none; transition:border 0.2s; }
+.modal-body input:focus { border-color:#fbbf24; }
+.modal-body input::placeholder { color:#64748b; }
+.modal-pay-btn { width:100%; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1a1a; border:none; border-radius:10px; padding:16px; font-size:17px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:opacity 0.2s; }
+.modal-pay-btn:hover { opacity:0.9; }
+.modal-close { position:absolute; top:16px; right:18px; background:none; border:none; color:#64748b; font-size:22px; cursor:pointer; line-height:1; }
+.modal-close:hover { color:#fff; }
+.modal-note { font-size:12px; color:#475569; text-align:center; margin-top:12px; }
+
+/* HERO */
+.hero { background:#0d1030; padding:40px 20px 60px; }
+.hero-inner { max-width:1000px; margin:0 auto; }
+
+/* TOP PILL */
+.top-pill { display:flex; justify-content:center; margin-bottom:28px; }
+.top-pill span { background:#1e2155; color:#fff; font-size:14px; font-weight:600; padding:8px 22px; border-radius:30px; border:1px solid rgba(255,255,255,0.15); letter-spacing:0.3px; }
+
+/* HEADLINE */
+.headline { text-align:center; margin-bottom:18px; }
+.headline h1 { font-size:44px; font-weight:900; line-height:1.2; color:#fff; }
+.headline h1 .orange { color:#f97316; }
+.sub-text { text-align:center; font-size:16px; color:#94a3b8; line-height:1.7; max-width:740px; margin:0 auto 36px; }
+
+/* TWO COL */
+.two-col { display:flex; gap:32px; align-items:flex-start; }
+
+/* VIDEO LEFT */
+.video-box { flex:1; border-radius:14px; overflow:hidden; background:#000; position:relative; min-height:340px; }
+.video-box img { width:100%; display:block; border-radius:14px; }
+.video-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(0,0,0,0.85)); padding:20px 18px 18px; border-radius:0 0 14px 14px; }
+.video-title { font-size:20px; font-weight:800; color:#fff; margin-bottom:4px; }
+.video-sub { font-size:13px; color:#cbd5e1; }
+.play-btn { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:60px; height:60px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); border:2px solid rgba(255,255,255,0.4); cursor:pointer; }
+.play-btn:after { content:''; border-left:22px solid #fff; border-top:13px solid transparent; border-bottom:13px solid transparent; margin-left:4px; }
+.video-duration { position:absolute; bottom:58px; left:18px; background:rgba(0,0,0,0.6); color:#fff; font-size:12px; padding:2px 8px; border-radius:4px; }
+
+/* RIGHT PANEL */
+.right-panel { width:380px; flex-shrink:0; }
+.gift-box { background:#1e2155; border:1.5px solid rgba(251,191,36,0.3); border-radius:12px; padding:14px 18px; font-size:14px; color:#fbbf24; font-weight:600; margin-bottom:16px; text-align:center; line-height:1.5; }
+
+.details-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.detail-box { background:#1a1f4e; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:14px 16px; display:flex; align-items:center; gap:12px; }
+.detail-icon { width:36px; height:36px; border-radius:50%; background:#2d3280; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.detail-text .label { font-size:11px; color:#64748b; margin-bottom:3px; }
+.detail-text .val { font-size:16px; font-weight:700; color:#fff; }
+
+.join-btn { width:100%; padding:18px; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1a1a; border:none; border-radius:10px; font-size:18px; font-weight:800; cursor:pointer; letter-spacing:0.3px; margin-bottom:12px; position:relative; overflow:hidden; }
+.join-btn:hover { background:linear-gradient(135deg,#fcd34d,#fbbf24); }
+@keyframes shine { 0%{left:-100%} 60%,100%{left:150%} }
+.join-btn::after, .cta-center button::after, .final-btn::after, .modal-pay-btn::after {
+  content:''; position:absolute; top:0; left:-100%; width:60%; height:100%;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+  animation:shine 2.5s ease-in-out infinite;
+}
+
+.btn-notes { text-align:center; }
+.btn-notes p { font-size:13px; color:#94a3b8; margin-bottom:4px; }
+.btn-notes .stars { color:#fbbf24; }
+
+/* SECTIONS */
+.sec { padding:60px 20px; }
+.sec-inner { max-width:1000px; margin:0 auto; }
+.sec-title { font-size:26px; font-weight:800; text-align:center; color:#fff; margin-bottom:10px; }
+.sec-title.dark { color:#1a1a1a; }
+.red-line { width:50px; height:4px; background:#f97316; border-radius:2px; margin:0 auto 16px; }
+.sec-sub { font-size:15px; color:#94a3b8; text-align:center; margin-bottom:36px; line-height:1.7; max-width:640px; margin-left:auto; margin-right:auto; }
+.sec-sub.dark { color:#64748b; }
+
+/* SECRETS */
+.secrets-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; }
+.secret-card { background:#1a1f4e; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:28px 22px; text-align:center; }
+.secret-icon { font-size:40px; margin-bottom:12px; }
+.secret-badge { display:inline-block; background:#f97316; color:#fff; font-size:11px; font-weight:700; padding:4px 14px; border-radius:20px; margin-bottom:12px; }
+.secret-card h4 { font-size:17px; font-weight:700; margin-bottom:8px; color:#fff; }
+.secret-card p { font-size:13px; color:#94a3b8; line-height:1.65; }
+
+/* STUDENT CARDS */
+.dark-sec { background:#080c24; padding:60px 0; }
+@keyframes scrollX { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+#testi-carousel:hover, #cards-carousel:hover { animation-play-state:paused; }
+.students-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; max-width:1000px; margin:0 auto 40px; }
+.student-card { background:#1a1f4e; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:20px 14px; text-align:center; }
+.student-avatar { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#f97316,#fbbf24); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:#fff; margin:0 auto 10px; }
+.student-name { font-size:13px; font-weight:700; color:#fff; margin-bottom:2px; }
+.student-role { font-size:11px; color:#64748b; margin-bottom:8px; line-height:1.4; }
+.student-income { font-size:16px; font-weight:800; color:#fbbf24; }
+.student-detail { font-size:11px; color:#94a3b8; margin-top:3px; }
+
+/* TESTIMONIAL SCREENSHOTS */
+.testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; max-width:1000px; margin:0 auto; }
+.testi-grid img { width:100%; border-radius:12px; display:block; }
+
+/* ABOUT */
+.about-sec { background:#0d1030; padding:60px 20px; }
+.about-inner { max-width:900px; margin:0 auto; display:flex; gap:40px; align-items:center; }
+.about-photo { width:220px; height:280px; border-radius:16px; object-fit:cover; object-position:top; flex-shrink:0; border:3px solid rgba(249,115,22,0.4); }
+.about-tag { display:inline-block; background:rgba(249,115,22,0.15); color:#f97316; font-size:12px; font-weight:700; padding:5px 14px; border-radius:20px; margin-bottom:10px; }
+.about-inner h2 { font-size:26px; font-weight:800; color:#fff; margin-bottom:12px; }
+.about-inner p { font-size:14px; color:#94a3b8; line-height:1.8; margin-bottom:10px; }
+.about-stats { display:flex; gap:24px; margin-top:20px; flex-wrap:wrap; }
+.about-stat .num { font-size:22px; font-weight:800; color:#f97316; }
+.about-stat .lbl { font-size:12px; color:#64748b; }
+
+/* FOMO */
+.fomo-sec { background:#080c24; padding:60px 20px; }
+.fomo-list { max-width:700px; margin:0 auto; }
+.fomo-item { display:flex; gap:16px; align-items:flex-start; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.fomo-item:last-child { border-bottom:none; }
+.fomo-emoji { font-size:24px; flex-shrink:0; }
+.fomo-item p { font-size:15px; color:#cbd5e1; line-height:1.6; }
+
+/* FAQ */
+.faq-sec { background:#f1f5f9; padding:60px 20px; }
+.faq-sec .sec-title { color:#0d1030; }
+.faq-sec .sec-sub { color:#475569; }
+.faq-list { max-width:700px; margin:0 auto; }
+.faq-item { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.faq-q { font-size:15px; font-weight:700; color:#0d1030; margin-bottom:8px; }
+.faq-a { font-size:14px; color:#475569; line-height:1.65; }
+
+/* LIGHT SECTION */
+.light-sec { background:#f8fafc; padding:60px 20px; }
+.light-sec .sec-title { color:#0d1030; }
+.light-sec .sec-sub { color:#475569; }
+.light-sec .secret-card { background:#fff; border:1px solid #e2e8f0; box-shadow:0 4px 16px rgba(0,0,0,0.06); }
+.light-sec .secret-card h4 { color:#0d1030; }
+.light-sec .secret-card p { color:#475569; }
+.light-sec .red-line { background:#f97316; }
+
+/* FINAL CTA */
+.final-sec { background:#080c24; padding:70px 20px; text-align:center; }
+.final-sec h2 { font-size:28px; font-weight:800; color:#fff; margin-bottom:10px; }
+.final-sec p { font-size:15px; color:#94a3b8; margin-bottom:28px; }
+.final-btn { display:inline-block; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1a1a; padding:16px 44px; border-radius:10px; font-size:18px; font-weight:800; border:none; cursor:pointer; position:relative; overflow:hidden; }
+.final-btn:hover { background:linear-gradient(135deg,#fcd34d,#fbbf24); }
+
+/* CTA CENTER */
+.cta-center { text-align:center; margin-top:36px; }
+.cta-center button { background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1a1a; border:none; padding:15px 40px; border-radius:8px; font-size:16px; font-weight:800; cursor:pointer; position:relative; overflow:hidden; }
+.cta-center button:hover { background:linear-gradient(135deg,#fcd34d,#fbbf24); }
+
+/* Seat urgency label above buttons */
+.seat-label { display:inline-flex; align-items:center; gap:6px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:700; color:#ef4444; margin-bottom:10px; letter-spacing:0.3px; }
+.seat-label .blink { width:7px; height:7px; background:#ef4444; border-radius:50%; animation:blink 1.2s ease-in-out infinite; display:inline-block; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* FORM SECTION */
+.form-sec { background:#1a1f4e; padding:50px 20px; }
+.form-box { max-width:500px; margin:0 auto; background:#0d1030; border-radius:16px; padding:32px 28px; border:1px solid rgba(255,255,255,0.1); }
+.form-box h3 { font-size:20px; font-weight:800; color:#fff; text-align:center; margin-bottom:6px; }
+.form-box p { font-size:13px; color:#94a3b8; text-align:center; margin-bottom:20px; }
+.form-box input { width:100%; padding:13px 16px; border:1.5px solid rgba(255,255,255,0.1); border-radius:8px; font-size:14px; margin-bottom:12px; outline:none; background:#1a1f4e; color:#fff; }
+.form-box input::placeholder { color:#64748b; }
+.form-box input:focus { border-color:#f97316; }
+.form-box .join-btn { background:#fbbf24; color:#1a1a1a; }
+.form-box .join-btn:hover { background:#f59e0b; }
+
+/* MOBILE */
+@media(max-width:768px){
+  .two-col { flex-direction:column; }
+  .right-panel { width:100%; }
+  .headline h1 { font-size:26px; }
+  .about-inner { flex-direction:column; text-align:center; }
+  .about-photo { width:160px; height:200px; margin:0 auto; }
+  .about-stats { justify-content:center; }
+  .sticky-bar { display:block; position:fixed; bottom:0; left:0; right:0; background:#fbbf24; padding:12px 20px; z-index:999; }
+  .sticky-bar button { width:100%; padding:13px; background:#1a1a1a; color:#fbbf24; border:none; border-radius:8px; font-size:15px; font-weight:800; cursor:pointer; }
+}
+@media(min-width:769px){ .sticky-bar { display:none; } }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+
+    <!-- TOP PILL -->
+    <div class="top-pill"><span>90-Min FREE Masterclass</span></div>
+
+    <!-- HEADLINE -->
+    <div class="headline">
+      <h1>Marathi मध्ये शिका Dropshipping आणि <span class="orange">1,000+ Students</span> सारखं <span class="orange">₹4.5 लाख ते ₹20 लाख/Month</span> कमवायला सुरुवात करा — बिना Stock, बिना Office!</h1>
+    </div>
+    <p class="sub-text">तुमचं goal ₹20,000 असो किंवा ₹1 लाख/month — हे फक्त income बद्दल नाही, हे freedom बद्दल आहे. Zero पासून सुरुवात करणाऱ्यांसाठी, 100% Marathi मध्ये.</p>
+
+    <!-- TWO COL: VIDEO LEFT + DETAILS RIGHT -->
+    <div class="two-col">
+
+      <!-- VIDEO -->
+      <div class="video-box" style="background:#111827; min-height:340px; position:relative; display:flex; align-items:center; justify-content:center;">
+        <img src="assets/pranav-photo.jpeg" alt="Akshay" style="width:100%; height:360px; object-fit:cover; object-position:top; border-radius:14px; opacity:0.85;" />
+        <div class="play-btn"></div>
+        <div class="video-duration">01:28</div>
+        <div class="video-overlay">
+          <div class="video-title">Dropshipping Business From Home</div>
+          <div class="video-sub">Marathi मध्ये · Zero to Hero Academy</div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="right-panel">
+        <div class="gift-box">🎁 Gift: Winning Product Research Tool + Top 10 Products PDF 2026<br>(worth ₹2,999 — Absolutely Free!)</div>
+
+        <div class="details-grid">
+          <div class="detail-box">
+            <div class="detail-icon">📅</div>
+            <div class="detail-text">
+              <div class="label">Date</div>
+              <div class="val">21 June</div>
+            </div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-icon">⏰</div>
+            <div class="detail-text">
+              <div class="label">Time</div>
+              <div class="val">2:00 PM</div>
+            </div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-icon">🗣️</div>
+            <div class="detail-text">
+              <div class="label">Language</div>
+              <div class="val">Marathi</div>
+            </div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-icon">⭐</div>
+            <div class="detail-text">
+              <div class="label">Duration</div>
+              <div class="val">90 Mins</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEAT COUNTER -->
+        <div id="seat-bar" style="background:rgba(239,68,68,0.12); border:1.5px solid rgba(239,68,68,0.4); border-radius:10px; padding:12px 16px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:20px;">🔴</span>
+            <div>
+              <p style="font-size:13px; color:#fca5a5; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Limited Seats Only</p>
+              <p style="font-size:12px; color:#94a3b8; margin:0;">Seats are filling fast — book yours now</p>
+            </div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <p style="font-size:28px; font-weight:900; color:#ef4444; margin:0; line-height:1;" id="seat-count">47</p>
+            <p style="font-size:11px; color:#94a3b8; margin:0;">seats left</p>
+          </div>
+        </div>
+
+        <button class="join-btn" onclick="openModal()">
+          <span style="text-decoration:line-through; opacity:0.5; font-size:14px; font-weight:600; margin-right:4px;">₹999</span>
+          Join The Live Workshop — <span style="font-size:22px;">₹99</span> Only 🔥
+        </button>
+
+        <div class="btn-notes">
+          <p>⚡ Limited Seats • Save Your Spot Now</p>
+          <p><span class="stars">⭐</span> 4.9 Rating • 1,000+ Success Stories</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- WHAT YOU WILL LEARN -->
+<div class="sec light-sec">
+  <div class="sec-inner">
+    <p class="sec-title">या 90 मिनिटांत काय शिकाल?</p>
+    <div class="red-line"></div>
+    <p class="sec-sub">हे YouTube video नाही. Pre-recorded नाही. LIVE session आहे — Akshay sir स्वतः शिकवतात, Marathi मध्ये.</p>
+    <div class="secrets-grid">
+      <div class="secret-card">
+        <div class="secret-icon">🎯</div>
+        <div class="secret-badge">Secret #1</div>
+        <h4>Winning Product शोधा</h4>
+        <p>Free AI tools वापरून 10 मिनिटांत 2026 चा best selling product — बिना investment, बिना guesswork</p>
+      </div>
+      <div class="secret-card">
+        <div class="secret-icon">🛒</div>
+        <div class="secret-badge">Secret #2</div>
+        <h4>Store Live करा</h4>
+        <p>Step-by-step screen share — Store कसं बनवायचं, supplier कुठून मिळतो, order कसा handle करायचा</p>
+      </div>
+      <div class="secret-card">
+        <div class="secret-icon">💰</div>
+        <div class="secret-badge">Secret #3</div>
+        <h4>पहिला Sale मिळवा</h4>
+        <p>पहिला customer paid ads शिवाय — आमच्या students नी 18–30 दिवसांत पहिला sale केला</p>
+      </div>
+    </div>
+    <div class="cta-center">
+      <p class="seat-label"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+      <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-sec">
+  <div style="text-align:center; margin-bottom:36px;">
+    <p style="font-size:12px; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">MEET MAHARASHTRA'S DROPSHIPPING COACH — 9+ YEARS EXPERIENCE</p>
+    <p class="sec-title">Akshay</p>
+    <div class="red-line"></div>
+  </div>
+  <div class="about-inner">
+    <img src="assets/pranav-photo.jpeg" alt="Akshay" class="about-photo" />
+    <div>
+      <span class="about-tag">Dropshipping Coach · 9+ Years Experience · Zero to Hero Academy, Pune</span>
+      <h2 style="color:#fff; font-size:22px; margin-bottom:12px;">Maharashtra's #1 Marathi Dropshipping Coach — 9+ Years Proven Experience</h2>
+      <p>मी स्वतः Dropshipping try केलं — fail झालो, पुन्हा try केलो, शिकलो. पहिला sale आला. Store scale झाला.</p>
+      <p>महाराष्ट्रात Marathi मध्ये कोणी शिकवत नव्हतं म्हणून मी Zero to Hero Academy सुरू केली. आज 1,000+ students. Real stores. Real income.</p>
+      <div class="about-stats">
+        <div class="about-stat"><div class="num">1,000+</div><div class="lbl">Students</div></div>
+        <div class="about-stat"><div class="num">₹20L+</div><div class="lbl">Student Revenue/mo</div></div>
+        <div class="about-stat"><div class="num">100%</div><div class="lbl">Marathi Medium</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-center" style="margin-top:36px;">
+    <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+  </div>
+</div>
+
+<!-- MARKET PROOF -->
+<div style="background:#0a0a1a; padding:70px 20px;">
+  <div class="sec-inner">
+    <p style="font-size:30px; font-weight:900; color:#fff; text-align:center; margin-bottom:40px;">India's <span style="color:#f97316;">Dropshipping</span> Market is Exploding</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-bottom:36px;">
+
+      <!-- Card 1: Google search Marathi -->
+      <div style="background:#1e1e2e; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+        <div style="background:#2a2a3e; padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px; font-weight:900; background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">G</span>
+            <span style="font-size:12px; color:#94a3b8;">Google Search</span>
+          </div>
+          <span style="color:#64748b; font-size:16px;">✕</span>
+        </div>
+        <div style="padding:18px; font-size:13px; color:#cbd5e1; line-height:1.7;">
+          <p style="color:#60a5fa; margin:0 0 10px; font-weight:600;">भारतात ड्रॉपशिपिंग व्यवसाय सुरू करणे — ई-कॉमर्समध्ये प्रवेश करण्याचा एक फायदेशीर मार्ग</p>
+          <p style="color:#94a3b8; margin:0 0 12px; font-size:12px;">Amazon.in +5</p>
+          <p style="font-weight:700; color:#e2e8f0; margin:0 0 8px;">भारतात ड्रॉपशिपिंग सुरू करण्याची प्रमुख कारणे:</p>
+          <ul style="margin:0; padding-left:16px; color:#94a3b8; font-size:12.5px;">
+            <li style="margin-bottom:6px;"><strong style="color:#e2e8f0;">कमी प्रारंभिक भांडवल:</strong> मालासाठी खरेदी करण्याची आवश्यकता नाही, सुरुवातीचा खर्च कमी.</li>
+            <li style="margin-bottom:6px;"><strong style="color:#e2e8f0;">ई-कॉमर्सची जलद वाढ:</strong> भारताचा बाजारपेठ झपाट्याने विस्तारत आहे.</li>
+            <li style="margin-bottom:6px;"><strong style="color:#e2e8f0;">उच्च नफ्याची शक्यता:</strong> २०% पेक्षाही जास्त नफा मिळवणे शक्य आहे.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2: News Article -->
+      <div style="background:#1e1e2e; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+        <div style="background:#2a2a3e; padding:10px 14px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:12px; font-weight:700; color:#60a5fa;">APPAREL RESOURCES</span>
+        </div>
+        <div style="padding:18px;">
+          <p style="font-size:11px; color:#94a3b8; margin:0 0 8px;">Dropshipping Company · Business · Retail</p>
+          <p style="font-size:17px; font-weight:800; color:#fff; line-height:1.4; margin:0 0 8px;">Shapewear brand Invogue Raises US $220,000 on Shark Tank India at US $1.47 Million Valuation</p>
+          <p style="font-size:11px; color:#64748b; margin:0 0 14px;">08-February-2026 · 2 mins read</p>
+          <div style="background:#2a2a3e; border-radius:10px; padding:14px; font-size:12.5px; color:#94a3b8; line-height:1.6;">
+            Dropshipping businesses are getting Shark Tank investments. Indian e-commerce is booming — and Marathi entrepreneurs are perfectly positioned to benefit.
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Google growth stats -->
+      <div style="background:#1e1e2e; border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+        <div style="background:#2a2a3e; padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px; font-weight:900; background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">G</span>
+            <span style="font-size:12px; color:#94a3b8;">dropshipping growth in india</span>
+          </div>
+          <span style="color:#64748b; font-size:16px;">✕</span>
+        </div>
+        <div style="padding:18px; font-size:13px; color:#cbd5e1; line-height:1.7;">
+          <p style="color:#e2e8f0; margin:0 0 10px;">भारतातील ड्रॉपशिपिंग बाजारपेठ वेगाने वाढत आहे — <span style="color:#60a5fa; font-weight:600;">जी अंदाजे ८ अब्ज अमेरिकी डॉलर असून २०२८ पर्यंत २४% CAGR ने ४ अब्ज अमेरिकी डॉलरपर्यंत पोहोचण्याचा अंदाज आहे.</span></p>
+          <p style="font-weight:700; color:#e2e8f0; margin:0 0 8px;">भारतातील विकासाचे प्रमुख चालक घटक:</p>
+          <ul style="margin:0; padding-left:16px; color:#94a3b8; font-size:12.5px;">
+            <li style="margin-bottom:6px;"><strong style="color:#e2e8f0;">डिजिटल इंडिया:</strong> ७५ कोटींहून अधिक स्मार्टफोन वापरकर्ते</li>
+            <li style="margin-bottom:6px;"><strong style="color:#e2e8f0;">प्रवेशासाठी कमी अडथळा:</strong> ₹12,000–₹15,000 मध्ये store सुरू</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(251,191,36,0.12),rgba(249,115,22,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:14px; padding:20px 28px; text-align:center; max-width:700px; margin:0 auto 36px;">
+      <p style="font-size:20px; font-weight:800; color:#fbbf24; margin:0 0 6px;">हे market तुमची वाट पाहत आहे.</p>
+      <p style="font-size:14px; color:#94a3b8; margin:0;">Marathi मध्ये शिकवणारे Zero to Hero Academy — Maharashtra चा एकमेव platform.</p>
+    </div>
+
+    <div class="cta-center">
+      <p class="seat-label"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+      <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS + GOLDEN STUDENTS (moved here) -->
+<div style="background:#0d1030; padding:60px 0;">
+  <p style="font-size:26px; font-weight:800; color:#fff; text-align:center; margin-bottom:12px; padding:0 20px;">Real Students, Real Results</p>
+  <div style="width:6px; height:6px; background:#fbbf24; border-radius:50%; margin:0 auto 32px; box-shadow:0 0 0 4px rgba(251,191,36,0.25);"></div>
+
+  <!-- Auto-scroll carousel -->
+  <div style="overflow:hidden; width:100%; position:relative;">
+    <div id="testi-carousel" style="display:flex; gap:12px; padding-left:20px; width:max-content; animation:scrollX 70s linear infinite;">
+      <img src="assets/testimonial-praful.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-vishal.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-ashish.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-abhijit.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-sachin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-pravin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-rohan.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-praful.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-vishal.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-ashish.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-abhijit.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-sachin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-pravin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-rohan.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-arti.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <!-- duplicate for seamless loop -->
+      <img src="assets/testimonial-praful.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-vishal.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-ashish.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-abhijit.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-sachin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-pravin.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-rohan.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+      <img src="assets/testimonial-arti.jpeg" alt="" style="height:200px; width:auto; border-radius:10px; flex-shrink:0;" />
+    </div>
+  </div>
+
+  <!-- Golden Students Grid -->
+  <div style="padding:60px 20px 40px; max-width:1400px; margin:0 auto;">
+    <p style="font-size:26px; font-weight:800; color:#fbbf24; text-align:center; margin-bottom:32px;">🏆 Last Month Golden Students</p>
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:32px;">
+      <img src="assets/golden-mahesh.jpeg" style="width:100%; border-radius:12px;" />
+      <img src="assets/golden-prafull.jpeg" style="width:100%; border-radius:12px;" />
+      <img src="assets/golden-vishal.jpeg" style="width:100%; border-radius:12px;" />
+      <img src="assets/golden-abhinav.jpeg" style="width:100%; border-radius:12px;" />
+      <img src="assets/golden-extra.jpeg" style="width:100%; border-radius:12px;" />
+    </div>
+    <p style="font-size:22px; font-weight:800; color:#fff; text-align:center; margin-bottom:20px;">💰 Real Revenue Proof</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:900px; margin:0 auto 36px;">
+      <img src="assets/razorpay-jul.jpeg" style="width:100%; border-radius:12px; border:2px solid rgba(251,191,36,0.35);" />
+      <img src="assets/razorpay-aug.jpeg" style="width:100%; border-radius:12px; border:2px solid rgba(251,191,36,0.35);" />
+    </div>
+    <div class="cta-center">
+      <p class="seat-label"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+      <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GROWTH GRAPH -->
+<div style="background:#080c24; padding:70px 20px;">
+  <div class="sec-inner">
+    <p style="font-size:28px; font-weight:900; color:#fff; text-align:center; margin-bottom:8px;">या Masterclass नंतर तुमचं काय होतं?</p>
+    <div class="red-line" style="background:#fbbf24; margin:0 auto 12px;"></div>
+    <p style="font-size:15px; color:#94a3b8; text-align:center; margin-bottom:48px;">आमचे students पहिल्या महिन्यापासून results बघतात — हे average numbers आहेत</p>
+
+    <!-- Bar Chart -->
+    <style>
+      .bar-col { display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; max-width:120px; }
+      .bar-label-top { color:#fbbf24; font-weight:800; font-size:14px; opacity:0; transition:opacity 0.4s; }
+      .bar-fill { width:100%; border-radius:8px 8px 0 0; transform:scaleY(0); transform-origin:bottom; transition:transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+      .bar-label-bot { color:#94a3b8; font-size:13px; text-align:center; }
+      .bar-chart-animated .bar-fill { transform:scaleY(1); }
+      .bar-chart-animated .bar-label-top { opacity:1; }
+      .bar-col:nth-child(1) .bar-fill { transition-delay:0s; }
+      .bar-col:nth-child(2) .bar-fill { transition-delay:0.15s; }
+      .bar-col:nth-child(3) .bar-fill { transition-delay:0.3s; }
+      .bar-col:nth-child(4) .bar-fill { transition-delay:0.45s; }
+      .bar-col:nth-child(5) .bar-fill { transition-delay:0.6s; }
+      .bar-col:nth-child(6) .bar-fill { transition-delay:0.75s; }
+      .bar-col:nth-child(1) .bar-label-top { transition-delay:0.5s; }
+      .bar-col:nth-child(2) .bar-label-top { transition-delay:0.65s; }
+      .bar-col:nth-child(3) .bar-label-top { transition-delay:0.8s; }
+      .bar-col:nth-child(4) .bar-label-top { transition-delay:0.95s; }
+      .bar-col:nth-child(5) .bar-label-top { transition-delay:1.1s; }
+      .bar-col:nth-child(6) .bar-label-top { transition-delay:1.25s; }
+    </style>
+    <div id="bar-chart" style="display:flex; align-items:flex-end; justify-content:center; gap:20px; height:260px; padding:0 10px; margin-bottom:16px;">
+      <div class="bar-col">
+        <span class="bar-label-top">₹0</span>
+        <div class="bar-fill" style="height:30px; background:linear-gradient(180deg,#f97316,#dc2626);"></div>
+        <span class="bar-label-bot">Before<br/>Joining</span>
+      </div>
+      <div class="bar-col">
+        <span class="bar-label-top">₹15K</span>
+        <div class="bar-fill" style="height:70px; background:linear-gradient(180deg,#fbbf24,#f97316);"></div>
+        <span class="bar-label-bot">Month 1<br/>First Sale</span>
+      </div>
+      <div class="bar-col">
+        <span class="bar-label-top">₹45K</span>
+        <div class="bar-fill" style="height:110px; background:linear-gradient(180deg,#a3e635,#22c55e);"></div>
+        <span class="bar-label-bot">Month 2<br/>Store Growing</span>
+      </div>
+      <div class="bar-col">
+        <span class="bar-label-top">₹90K</span>
+        <div class="bar-fill" style="height:160px; background:linear-gradient(180deg,#38bdf8,#0ea5e9);"></div>
+        <span class="bar-label-bot">Month 3<br/>Scaling Up</span>
+      </div>
+      <div class="bar-col">
+        <span class="bar-label-top">₹2L+</span>
+        <div class="bar-fill" style="height:220px; background:linear-gradient(180deg,#c084fc,#7c3aed);"></div>
+        <span class="bar-label-bot">Month 4–5<br/>Full Income</span>
+      </div>
+      <div class="bar-col">
+        <span class="bar-label-top">₹5L+</span>
+        <div class="bar-fill" style="height:260px; background:linear-gradient(180deg,#fbbf24,#f59e0b);"></div>
+        <span class="bar-label-bot">Month 6+<br/>Job सोडली 🎉</span>
+      </div>
+    </div>
+    <script>
+      (function(){
+        var chart = document.getElementById('bar-chart');
+        var observer = new IntersectionObserver(function(entries){
+          if(entries[0].isIntersecting){
+            chart.classList.add('bar-chart-animated');
+            observer.disconnect();
+          }
+        }, {threshold: 0.3});
+        observer.observe(chart);
+      })();
+    </script>
+    <div style="border-top:1px solid rgba(255,255,255,0.08); margin-bottom:24px;"></div>
+    <p style="font-size:13px; color:#475569; text-align:center;">* हे average results आहेत. Individual results vary based on effort and consistency.</p>
+  </div>
+</div>
+
+<!-- HOW WE GUIDE YOU -->
+<div style="background:#f8fafc; padding:70px 20px;">
+  <div class="sec-inner">
+    <p style="font-size:28px; font-weight:900; color:#0d1030; text-align:center; margin-bottom:8px;">आम्ही तुम्हाला कसं Guide करतो?</p>
+    <div class="red-line" style="background:#f97316; margin:0 auto 12px;"></div>
+    <p style="font-size:15px; color:#475569; text-align:center; margin-bottom:52px;">Zero to Hero Academy चा Step-by-Step System — पहिल्या दिवसापासून शेवटपर्यंत</p>
+
+    <div style="display:flex; flex-direction:column; gap:0;">
+
+      <!-- Step 1 -->
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:28px 0; border-bottom:1px solid #e2e8f0;">
+        <div style="flex-shrink:0; width:56px; height:56px; background:linear-gradient(135deg,#fbbf24,#f97316); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:#000;">1</div>
+        <div style="flex:1;">
+          <p style="font-size:18px; font-weight:800; color:#0d1030; margin:0 0 6px;">Live Workshop — ₹99 Only Join करा</p>
+          <p style="font-size:14px; color:#475569; line-height:1.7; margin:0;">Akshay sir तुम्हाला Dropshipping चं पूर्ण model explain करतात — Marathi मध्ये, live screen share सोबत. कोणतेही prior knowledge नको.</p>
+        </div>
+        <div style="flex-shrink:0; width:80px; height:80px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;">🎓</div>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:28px 0; border-bottom:1px solid #e2e8f0;">
+        <div style="flex-shrink:0; width:56px; height:56px; background:linear-gradient(135deg,#a3e635,#22c55e); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:#000;">2</div>
+        <div style="flex:1;">
+          <p style="font-size:18px; font-weight:800; color:#0d1030; margin:0 0 6px;">Winning Product शोधणं शिका</p>
+          <p style="font-size:14px; color:#475569; line-height:1.7; margin:0;">AI tools वापरून Indian market साठी best-selling products identify करायचे — free tools, no paid software. हे तुम्ही class मध्येच practice करता.</p>
+        </div>
+        <div style="flex-shrink:0; width:80px; height:80px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;">🔍</div>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:28px 0; border-bottom:1px solid #e2e8f0;">
+        <div style="flex-shrink:0; width:56px; height:56px; background:linear-gradient(135deg,#38bdf8,#0ea5e9); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:#000;">3</div>
+        <div style="flex:1;">
+          <p style="font-size:18px; font-weight:800; color:#0d1030; margin:0 0 6px;">Store Setup — Live Screen Share</p>
+          <p style="font-size:14px; color:#475569; line-height:1.7; margin:0;">Akshay sir step-by-step तुमच्यासमोर store बनवून दाखवतात. तुम्ही exactly follow करता. एका session मध्ये तुमचा store ready होतो.</p>
+        </div>
+        <div style="flex-shrink:0; width:80px; height:80px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;">🛍️</div>
+      </div>
+
+      <!-- Step 4 -->
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:28px 0; border-bottom:1px solid #e2e8f0;">
+        <div style="flex-shrink:0; width:56px; height:56px; background:linear-gradient(135deg,#c084fc,#7c3aed); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:#000;">4</div>
+        <div style="flex:1;">
+          <p style="font-size:18px; font-weight:800; color:#0d1030; margin:0 0 6px;">पहिला Customer — Paid Ads शिवाय</p>
+          <p style="font-size:14px; color:#475569; line-height:1.7; margin:0;">Free strategies वापरून पहिले orders कसे आणायचे ते शिकता. Ads वर पैसे खर्च करण्यापूर्वी organic traction कसं build करायचं.</p>
+        </div>
+        <div style="flex-shrink:0; width:80px; height:80px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;">📦</div>
+      </div>
+
+      <!-- Step 5 -->
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:28px 0;">
+        <div style="flex-shrink:0; width:56px; height:56px; background:linear-gradient(135deg,#fbbf24,#f59e0b); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:#000;">5</div>
+        <div style="flex:1;">
+          <p style="font-size:18px; font-weight:800; color:#0d1030; margin:0 0 6px;">Scale करा — Full-time Income</p>
+          <p style="font-size:14px; color:#475569; line-height:1.7; margin:0;">Sales येऊ लागल्यावर Meta Ads, automation आणि multiple products add करून ₹1L–₹5L+ monthly revenue कसं build करायचं — proven roadmap.</p>
+        </div>
+        <div style="flex-shrink:0; width:80px; height:80px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:36px;">🚀</div>
+      </div>
+
+    </div>
+
+    <div class="cta-center" style="margin-top:48px;">
+      <p class="seat-label"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+      <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOMO -->
+<div class="fomo-sec">
+  <div class="sec-inner">
+    <p class="sec-title">Still Confused? Here's What You're Leaving Behind!</p>
+    <div class="red-line"></div>
+    <div class="fomo-list">
+      <div class="fomo-item"><div class="fomo-emoji">🌟</div><p>Marathi मध्ये Dropshipping शिकण्याची संधी — जी Maharashtra मध्ये दुसऱ्या कोणाकडून मिळणार नाही</p></div>
+      <div class="fomo-item"><div class="fomo-emoji">🎁</div><p>Free Winning Product Research Tool + Top 10 Products PDF — आजच पहिला product decide करायला मदत करेल</p></div>
+      <div class="fomo-item"><div class="fomo-emoji">🚀</div><p>Trial & Error शिवाय proven system — जे 1,000+ students नी वापरलंय आणि results मिळवलेत</p></div>
+      <div class="fomo-item"><div class="fomo-emoji">🤝</div><p>Akshay sir शी directly बोलण्याची संधी — Live Q&A मध्ये कोणतेही प्रश्न विचारा</p></div>
+      <div class="fomo-item"><div class="fomo-emoji">💡</div><p>Exclusive strategies — जे YouTube वर नाहीत, फक्त Live class मध्ये</p></div>
+      <div class="fomo-item"><div class="fomo-emoji">📈</div><p>स्वतःचा online business — job नाही, income आहे, freedom आहे, Maharashtra मध्ये बसून</p></div>
+    </div>
+    <div class="cta-center">
+      <p class="seat-label"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+      <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-sec">
+  <div class="sec-inner">
+    <p class="sec-title">Frequently Asked Questions</p>
+    <div class="red-line"></div>
+    <p class="sec-sub" style="margin-bottom:28px;">All your burning questions answered.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <p class="faq-q">या Masterclass मध्ये काय शिकायला मिळेल?</p>
+        <p class="faq-a">90 मिनिटांत — Winning product कसं शोधायचं, Store कसं बनवायचं, पहिला customer paid ads शिवाय कुठून आणायचा. हेच system 1,000+ students नी वापरलंय.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Technical background नाही — तरी जमेल का?</p>
+        <p class="faq-a">हो. आमचे बहुतेक students complete beginners होते. Smartphone असला की पुरे. Akshay sir basic पासून, Marathi मध्ये शिकवतात.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Masterclass ची date आणि time काय आहे?</p>
+        <p class="faq-a">21 June 2026, दुपारी 2:00 PM. Zoom वर Live. Recording नाही — Live attend केल्यावरच bonus gift मिळेल.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">हे Free आहे का? नंतर पैसे मागतील का?</p>
+        <p class="faq-a">Masterclass 100% Free. नंतर Full Course ₹10,000 आहे — पण ते तुमची choice. कोणताही pressure नाही.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">हे 100% Marathi मध्ये आहे का?</p>
+        <p class="faq-a">हो — 100% Marathi. Hindi किंवा English नाही. Maharashtra साठी specially design केलेलं.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT RESULTS (moved here below FAQ) -->
+<div class="dark-sec">
+  <div style="text-align:center; margin-bottom:32px; padding:0 20px;">
+    <p style="font-size:26px; font-weight:800; color:#fff;">आमचे Students काय कमवतात?</p>
+    <div class="red-line" style="background:#fbbf24; margin-top:12px;"></div>
+    <p style="font-size:15px; color:#94a3b8; max-width:540px; margin:0 auto; line-height:1.7;">हे special लोक नाहीत — हे तुमच्यासारखेच Maharashtra चे लोक आहेत.</p>
+  </div>
+  <div style="overflow:hidden; width:100%; position:relative;">
+    <div id="cards-carousel" style="display:flex; gap:14px; padding-left:20px; width:max-content; animation:scrollX 40s linear infinite;">
+      <!-- set 1 -->
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">PR</div><div class="student-name">Praful Rathod</div><div class="student-role">Store Owner</div><div class="student-income">₹12 लाख/month</div><div class="student-detail">4 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">VM</div><div class="student-name">Vishal Mote</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">₹4.5 लाख/month</div><div class="student-detail">Job सोडली — 5 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AR</div><div class="student-name">Ashish Raut</div><div class="student-role">Store Owner</div><div class="student-income">₹20 लाख/month</div><div class="student-detail">Turnover ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AS</div><div class="student-name">Abhijit Salve</div><div class="student-role">Marathi Dropshipper</div><div class="student-income">Store Live!</div><div class="student-detail">Marathi मध्ये ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">SK</div><div class="student-name">Sachin Kolhe</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">Profitable!</div><div class="student-detail">2 महिन्यांत job सोडली ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">PT</div><div class="student-name">Pravin Tembhe</div><div class="student-role">Store Owner</div><div class="student-income">Profit Growing!</div><div class="student-detail">Store Running ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">RB</div><div class="student-name">Rohan Bawane</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">₹3 लाख/month</div><div class="student-detail">5 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AS</div><div class="student-name">Arti Shelke</div><div class="student-role">2 Stores Running</div><div class="student-income">3 Hours Work!</div><div class="student-detail">Work-Life Balance ✅</div></div>
+      <!-- set 2 duplicate -->
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">PR</div><div class="student-name">Praful Rathod</div><div class="student-role">Store Owner</div><div class="student-income">₹12 लाख/month</div><div class="student-detail">4 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">VM</div><div class="student-name">Vishal Mote</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">₹4.5 लाख/month</div><div class="student-detail">Job सोडली — 5 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AR</div><div class="student-name">Ashish Raut</div><div class="student-role">Store Owner</div><div class="student-income">₹20 लाख/month</div><div class="student-detail">Turnover ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AS</div><div class="student-name">Abhijit Salve</div><div class="student-role">Marathi Dropshipper</div><div class="student-income">Store Live!</div><div class="student-detail">Marathi मध्ये ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">SK</div><div class="student-name">Sachin Kolhe</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">Profitable!</div><div class="student-detail">2 महिन्यांत job सोडली ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">PT</div><div class="student-name">Pravin Tembhe</div><div class="student-role">Store Owner</div><div class="student-income">Profit Growing!</div><div class="student-detail">Store Running ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">RB</div><div class="student-name">Rohan Bawane</div><div class="student-role">Full-time Dropshipper</div><div class="student-income">₹3 लाख/month</div><div class="student-detail">5 महिन्यांत ✅</div></div>
+      <div class="student-card" style="flex-shrink:0; width:200px;"><div class="student-avatar">AS</div><div class="student-name">Arti Shelke</div><div class="student-role">2 Stores Running</div><div class="student-income">3 Hours Work!</div><div class="student-detail">Work-Life Balance ✅</div></div>
+    </div>
+  </div>
+  <div style="display:none;" class="students-grid">
+    <div class="student-card">
+      <div class="student-avatar">PR</div>
+      <div class="student-name">Praful Rathod</div>
+      <div class="student-role">Dropshipping Store Owner</div>
+      <div class="student-income">₹12 लाख/month</div>
+      <div class="student-detail">4 महिन्यांत ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">VM</div>
+      <div class="student-name">Vishal Mote</div>
+      <div class="student-role">Full-time Dropshipper</div>
+      <div class="student-income">₹4.5 लाख/month</div>
+      <div class="student-detail">Job सोडली — 5 महिन्यांत ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">AR</div>
+      <div class="student-name">Ashish Raut</div>
+      <div class="student-role">Store Owner</div>
+      <div class="student-income">₹20 लाख/month</div>
+      <div class="student-detail">Turnover ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">AS</div>
+      <div class="student-name">Abhijit Salve</div>
+      <div class="student-role">Marathi Dropshipper</div>
+      <div class="student-income">Store Live!</div>
+      <div class="student-detail">Marathi मध्ये ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">SK</div>
+      <div class="student-name">Sachin Kolhe</div>
+      <div class="student-role">Full-time Dropshipper</div>
+      <div class="student-income">Profitable!</div>
+      <div class="student-detail">2 महिन्यांत job सोडली ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">PT</div>
+      <div class="student-name">Pravin Tembhe</div>
+      <div class="student-role">Store Owner</div>
+      <div class="student-income">Profit Growing!</div>
+      <div class="student-detail">Store Running ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">RB</div>
+      <div class="student-name">Rohan Bawane</div>
+      <div class="student-role">Full-time Dropshipper</div>
+      <div class="student-income">₹3 लाख/month</div>
+      <div class="student-detail">5 महिन्यांत ✅</div>
+    </div>
+    <div class="student-card">
+      <div class="student-avatar">AS</div>
+      <div class="student-name">Arti Shelke</div>
+      <div class="student-role">2 Stores Running</div>
+      <div class="student-income">3 Hours Work!</div>
+      <div class="student-detail">Work-Life Balance ✅</div>
+    </div>
+  </div>
+  <!-- WhatsApp Screenshots -->
+  <div style="padding:40px 20px 0;">
+    <p style="font-size:20px; font-weight:800; color:#fff; text-align:center; margin-bottom:20px;">Students चे WhatsApp Messages</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:700px; margin:0 auto;">
+      <img src="assets/testimonial-whatsapp1.jpeg" style="width:100%; border-radius:12px;" />
+      <img src="assets/testimonial-whatsapp2.jpeg" style="width:100%; border-radius:12px;" />
+    </div>
+  </div>
+  <div class="cta-center" style="padding:40px 20px 60px;">
+    <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+  </div>
+</div>
+
+
+<!-- REGISTRATION FORM -->
+<div class="form-sec" id="reg-form">
+  <div class="sec-inner" style="text-align:center; margin-bottom:24px;">
+    <p class="sec-title">Join The Live Workshop — ₹99</p>
+    <div class="red-line"></div>
+  </div>
+  <div class="form-box">
+    <h3>Seat Confirm करा — ₹99</h3>
+    <p>21 June · 2:00 PM · Marathi · Zoom</p>
+    <input type="text" placeholder="तुमचं पूर्ण नाव *" />
+    <input type="email" placeholder="Email Address *" />
+    <input type="tel" placeholder="WhatsApp Number *" />
+    <p class="seat-label" style="justify-content:center;"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+    <button class="join-btn" onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+    <p style="font-size:12px; color:#64748b; text-align:center; margin-top:10px;">🔒 No spam · 100% Free · Marathi मध्ये</p>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-sec">
+  <h2>अजून Limited Seats बाकी आहेत</h2>
+  <p>आज register केलेल्यांना Bonus PDF मोफत — "Top 10 Winning Products 2026"</p>
+  <p class="seat-label" style="justify-content:center;"><span class="blink"></span> 🔴 Only <span class="seat-count-inline">47</span> seats left — filling fast!</p>
+  <button class="final-btn" onclick="openModal()">Join The Live Workshop — आत्ता →</button>
+  <p style="margin-top:16px; font-size:13px; color:#475569;">🔒 No spam · 100% Free · Zero to Hero Academy, Pune</p>
+</div>
+
+<div class="sticky-bar">
+  <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+</div>
+
+<!-- REGISTRATION MODAL -->
+<div class="modal-overlay" id="reg-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <h2>🎓 Live Workshop — Seat Book करा</h2>
+      <p>21 June · 2:00 PM · Marathi · Zoom Live</p>
+      <div class="modal-price">
+        <span class="strike">₹999</span>
+        <span class="actual">₹99 Only</span>
+        <span class="tag">90% OFF — Today Only</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="m-name" placeholder="तुमचं पूर्ण नाव *" />
+      <input type="email" id="m-email" placeholder="Email Address *" />
+      <input type="tel" id="m-phone" placeholder="WhatsApp Number *" maxlength="10" />
+      <button class="modal-pay-btn" onclick="goToPayment()">
+        🔒 ₹99 मध्ये Seat Confirm करा — Pay Now
+      </button>
+      <p class="modal-note">🔒 Secure Payment via Razorpay · No spam · 100% Marathi</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal() {
+  document.getElementById('reg-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('reg-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('reg-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+// Seat counter — slowly ticks down to create urgency, syncs all counters on page
+(function(){
+  var seats = parseInt(sessionStorage.getItem('seats') || '47');
+  function updateAll() {
+    var main = document.getElementById('seat-count');
+    if (main) { main.textContent = seats; main.style.transition='transform 0.3s'; }
+    document.querySelectorAll('.seat-count-inline').forEach(function(el){ el.textContent = seats; });
+  }
+  updateAll();
+  setInterval(function(){
+    if (seats > 12) {
+      seats -= 1;
+      sessionStorage.setItem('seats', seats);
+      updateAll();
+      var main = document.getElementById('seat-count');
+      if (main) { main.style.transform='scale(1.2)'; setTimeout(function(){ main.style.transform='scale(1)'; }, 300); }
+    }
+  }, 45000);
+})();
+
+function goToPayment() {
+  var name = document.getElementById('m-name').value.trim();
+  var email = document.getElementById('m-email').value.trim();
+  var phone = document.getElementById('m-phone').value.trim();
+  if (!name) { alert('कृपया तुमचं नाव लिहा'); return; }
+  if (!email || !email.includes('@')) { alert('कृपया valid email लिहा'); return; }
+  if (!phone || phone.length < 10) { alert('कृपया 10 digit WhatsApp number लिहा'); return; }
+  // Replace below URL with your actual Razorpay payment link
+  window.location.href = 'https://razorpay.me/@zerotoheroacademy?amount=99&name=' + encodeURIComponent(name) + '&contact=' + encodeURIComponent(phone) + '&email=' + encodeURIComponent(email);
+}
+</script>
+
+</body>
+</html>
