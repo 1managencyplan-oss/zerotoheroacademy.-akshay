@@ -179,14 +179,53 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
 
 /* MOBILE */
 @media(max-width:768px){
-  .two-col { flex-direction:column; }
+  /* Hero */
+  .two-col { flex-direction:column; gap:20px; }
   .right-panel { width:100%; }
+  .video-box { min-height:220px; }
   .headline h1 { font-size:26px; }
+  .sub-text { font-size:14px; }
+
+  /* Detail boxes */
+  .detail-box { padding:10px 12px; }
+
+  /* Seat bar */
+  #seat-bar { flex-direction:column; align-items:flex-start; gap:8px; }
+
+  /* Join button */
+  .join-btn { font-size:15px; padding:15px; }
+
+  /* About */
   .about-inner { flex-direction:column; text-align:center; }
   .about-photo { width:160px; height:200px; margin:0 auto; }
   .about-stats { justify-content:center; }
+
+  /* Secrets grid */
+  .secrets-grid { grid-template-columns:1fr !important; }
+
+  /* Golden students grid */
+  div[style*="grid-template-columns:repeat(5"] { grid-template-columns:repeat(2,1fr) !important; }
+
+  /* Bar chart */
+  #bar-chart { gap:8px; height:200px; }
+  .bar-label-top { font-size:11px; }
+  .bar-label-bot { font-size:10px; }
+
+  /* Steps */
+  .fomo-sec .fomo-item { flex-direction:column; gap:8px; }
+
+  /* CTA center */
+  .cta-center button { padding:14px 24px; font-size:14px; }
+
+  /* Seat label */
+  .seat-label { font-size:11px; padding:4px 10px; }
+
+  /* Sticky bar */
   .sticky-bar { display:block; position:fixed; bottom:0; left:0; right:0; background:#fbbf24; padding:12px 20px; z-index:999; }
   .sticky-bar button { width:100%; padding:13px; background:#1a1a1a; color:#fbbf24; border:none; border-radius:8px; font-size:15px; font-weight:800; cursor:pointer; }
+
+  /* Market proof cards */
+  div[style*="display:flex; gap:20px; flex-wrap"] { flex-direction:column; }
 }
 @media(min-width:769px){ .sticky-bar { display:none; } }
 </style>
