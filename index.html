@@ -186,8 +186,16 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
   .headline h1 { font-size:26px; }
   .sub-text { font-size:14px; }
 
-  /* Detail boxes */
-  .detail-box { padding:10px 12px; }
+  /* Detail boxes — pill style on mobile */
+  .detail-box { padding:10px 12px; border-radius:30px; background:#1e2a6e; border:1px solid rgba(251,191,36,0.3); }
+  .details-grid { display:flex !important; flex-wrap:wrap; gap:10px; }
+  .details-grid .detail-box { flex:1; min-width:140px; }
+
+  /* Video full width */
+  .video-box { width:100%; min-height:200px; }
+
+  /* Padding fix for mobile */
+  .hero { padding:24px 16px 80px; }
 
   /* Seat bar */
   #seat-bar { flex-direction:column; align-items:flex-start; gap:8px; }
@@ -221,8 +229,12 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
   .seat-label { font-size:11px; padding:4px 10px; }
 
   /* Sticky bar */
-  .sticky-bar { display:block; position:fixed; bottom:0; left:0; right:0; background:#fbbf24; padding:12px 20px; z-index:999; }
-  .sticky-bar button { width:100%; padding:13px; background:#1a1a1a; color:#fbbf24; border:none; border-radius:8px; font-size:15px; font-weight:800; cursor:pointer; }
+  .sticky-bar { display:block; position:fixed; bottom:0; left:0; right:0; background:#111827; border-top:2px solid #fbbf24; padding:10px 16px; z-index:999; display:flex; align-items:center; gap:12px; }
+  .sticky-bar .sticky-price { flex:1; }
+  .sticky-bar .sticky-price .sp-now { font-size:22px; font-weight:900; color:#fbbf24; }
+  .sticky-bar .sticky-price .sp-old { font-size:14px; color:#6b7280; text-decoration:line-through; margin-left:6px; }
+  .sticky-bar .sticky-price .sp-label { font-size:11px; color:#ef4444; font-weight:700; display:block; }
+  .sticky-bar button { flex:1; padding:13px; background:linear-gradient(135deg,#fbbf24,#f97316); color:#1a1a1a; border:none; border-radius:8px; font-size:15px; font-weight:900; cursor:pointer; }
 
   /* Market proof cards */
   div[style*="display:flex; gap:20px; flex-wrap"] { flex-direction:column; }
@@ -841,7 +853,12 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
 </div>
 
 <div class="sticky-bar">
-  <button onclick="openModal()">Join The Live Workshop — ₹99 →</button>
+  <div class="sticky-price">
+    <span class="sp-label">🔴 Limited Seats!</span>
+    <span class="sp-now">₹99</span>
+    <span class="sp-old">₹999</span>
+  </div>
+  <button onclick="openModal()">Join Now →</button>
 </div>
 
 <!-- REGISTRATION MODAL -->
