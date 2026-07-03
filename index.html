@@ -234,18 +234,41 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
   /* Seat label */
   .seat-label { font-size:11px; padding:4px 10px; }
 
-  /* Sticky bar */
-  .sticky-bar { display:block; position:fixed; bottom:0; left:0; right:0; background:#111827; border-top:2px solid #fbbf24; padding:10px 16px; z-index:999; display:flex; align-items:center; gap:12px; }
-  .sticky-bar .sticky-price { flex:1; }
-  .sticky-bar .sticky-price .sp-now { font-size:22px; font-weight:900; color:#fbbf24; }
-  .sticky-bar .sticky-price .sp-old { font-size:14px; color:#6b7280; text-decoration:line-through; margin-left:6px; }
-  .sticky-bar .sticky-price .sp-label { font-size:11px; color:#ef4444; font-weight:700; display:block; }
-  .sticky-bar button { flex:1; padding:13px; background:linear-gradient(135deg,#fbbf24,#f97316); color:#1a1a1a; border:none; border-radius:8px; font-size:15px; font-weight:900; cursor:pointer; }
-
   /* Market proof cards */
   div[style*="display:flex; gap:20px; flex-wrap"] { flex-direction:column; }
 }
-@media(min-width:769px){ .sticky-bar { display:none; } }
+
+/* STICKY REGISTRATION BAR — all screens */
+.sticky-bar {
+  position:fixed; bottom:0; left:0; right:0; z-index:9998;
+  background:linear-gradient(90deg,#0d1030,#1a1f4e);
+  border-top:2px solid #fbbf24;
+  padding:10px 24px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  box-shadow:0 -4px 24px rgba(0,0,0,0.5);
+}
+.sticky-bar .sb-left { display:flex; align-items:center; gap:14px; flex:1; min-width:0; }
+.sticky-bar .sb-dot { width:9px; height:9px; background:#ef4444; border-radius:50%; animation:blink 1.2s infinite; flex-shrink:0; }
+.sticky-bar .sb-text { font-size:14px; color:#fff; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sticky-bar .sb-text span { color:#fbbf24; }
+.sticky-bar .sb-seats { font-size:12px; color:#fca5a5; font-weight:600; white-space:nowrap; flex-shrink:0; }
+.sticky-bar .sb-btn {
+  background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#1a1a1a;
+  border:none; border-radius:8px; padding:12px 28px;
+  font-size:15px; font-weight:900; cursor:pointer; white-space:nowrap;
+  position:relative; overflow:hidden; flex-shrink:0;
+}
+.sticky-bar .sb-btn::after {
+  content:''; position:absolute; top:0; left:-100%; width:60%; height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
+  animation:shine 2.5s ease-in-out infinite;
+}
+@media(max-width:600px){
+  .sticky-bar { padding:10px 14px; gap:10px; }
+  .sticky-bar .sb-text { font-size:12px; }
+  .sticky-bar .sb-seats { display:none; }
+  .sticky-bar .sb-btn { padding:11px 16px; font-size:13px; }
+}
 </style>
 </head>
 <body>
@@ -906,11 +929,12 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
 </div>
 
 <div class="sticky-bar">
-  <div class="sticky-price">
-    <span class="sp-label">🔴 Limited Seats!</span>
-    <span class="sp-now">FREE</span>
+  <div class="sb-left">
+    <span class="sb-dot"></span>
+    <span class="sb-text">Live Workshop — <span>100% FREE</span> · Marathi Dropshipping Masterclass</span>
+    <span class="sb-seats">🔴 Only <span id="sticky-seat-count">47</span> seats left!</span>
   </div>
-  <button onclick="openModal()">Join Now →</button>
+  <button class="sb-btn" onclick="openModal()">Register Now — FREE →</button>
 </div>
 
 <!-- REGISTRATION MODAL -->
@@ -956,6 +980,8 @@ document.getElementById('reg-modal').addEventListener('click', function(e) {
     var main = document.getElementById('seat-count');
     if (main) { main.textContent = seats; main.style.transition='transform 0.3s'; }
     document.querySelectorAll('.seat-count-inline').forEach(function(el){ el.textContent = seats; });
+    var sticky = document.getElementById('sticky-seat-count');
+    if (sticky) sticky.textContent = seats;
   }
   updateAll();
   setInterval(function(){
