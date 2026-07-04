@@ -1010,8 +1010,7 @@ function goToPayment() {
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
-  var urlParams = new URLSearchParams(window.location.search);
-  var src = urlParams.get('src') || 'Landing Page';
+  var src = window.location.search ? window.location.search.substring(1) : 'Landing Page';
 
   var payload = {
     name: name,
