@@ -995,6 +995,7 @@ document.getElementById('reg-modal').addEventListener('click', function(e) {
   }, 45000);
 })();
 
+var PABBLY_URL = 'https://connect.pabbly.com/webhook-listener/webhook/IjU3NjMwNTZkMDYzZTA0MzA1MjY0NTUzNSI_3D_pc/IjU3NjcwNTY5MDYzMjA0MzE1MjY4NTUzYzUxMzUi_pc';
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDXxfD_PoeDZS24XfPrEYbxMez2f8rlHmH7KTUgiYuS7mrmm4on07Wdr85X5NctOOZ_w/exec';
 
 function goToPayment() {
@@ -1009,13 +1010,30 @@ function goToPayment() {
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
+  var payload = {
+    name: name,
+    email: email,
+    phone: phone,
+    time: new Date().toISOString(),
+    page_url: window.location.href,
+    source: 'Landing Page'
+  };
+
+  // Send to Pabbly webhook
+  fetch(PABBLY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function(){});
+
+  // Also send to Google Sheet backup
   fetch(SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ name: name, email: email, phone: phone, source: 'Landing Page' })
-  })
-  .then(function(r){ return r.json(); })
-  .catch(function(){ return { status: 'success' }; })
-  .finally(function() {
+    body: JSON.stringify(payload)
+  }).catch(function(){});
+
+  // Redirect after short delay to let requests fire
+  setTimeout(function() {
     closeModal();
     document.getElementById('m-name').value = '';
     document.getElementById('m-email').value = '';
@@ -1023,7 +1041,7 @@ function goToPayment() {
     btn.disabled = false;
     btn.textContent = '🎓 FREE मध्ये Seat Confirm करा — Register Now';
     window.location.href = 'thank-you.html';
-  });
+  }, 1500);
 }
 </script>
 
