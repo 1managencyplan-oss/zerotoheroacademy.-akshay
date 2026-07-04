@@ -1,7 +1,7 @@
 // Zero to Hero Academy — Lead Capture Script
 // Paste this in Google Apps Script → Deploy as Web App → Anyone can access
 
-var SHEET_NAME = 'Leads';
+var SHEET_NAME = 'Leads Sheet';
 
 function doPost(e) {
   try {
@@ -31,7 +31,7 @@ function doGet(e) {
 }
 
 function getOrCreateSheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1Dumr0B3b0x1loegNIJSnsaSxDW6eCl6gzdIQZHgl-k8');
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
