@@ -1010,13 +1010,16 @@ function goToPayment() {
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
+  var urlParams = new URLSearchParams(window.location.search);
+  var src = urlParams.get('src') || 'Landing Page';
+
   var payload = {
     name: name,
     email: email,
     phone: phone,
     time: new Date().toISOString(),
     page_url: window.location.href,
-    source: 'Landing Page'
+    source: src
   };
 
   // Send to Pabbly webhook
