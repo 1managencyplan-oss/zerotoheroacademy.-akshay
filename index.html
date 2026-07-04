@@ -995,6 +995,8 @@ document.getElementById('reg-modal').addEventListener('click', function(e) {
   }, 45000);
 })();
 
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDXxfD_PoeDZS24XfPrEYbxMez2f8rlHmH7KTUgiYuS7mrmm4on07Wdr85X5NctOOZ_w/exec';
+
 function goToPayment() {
   var name = document.getElementById('m-name').value.trim();
   var email = document.getElementById('m-email').value.trim();
@@ -1002,9 +1004,26 @@ function goToPayment() {
   if (!name) { alert('कृपया तुमचं नाव लिहा'); return; }
   if (!email || !email.includes('@')) { alert('कृपया valid email लिहा'); return; }
   if (!phone || phone.length < 10) { alert('कृपया 10 digit WhatsApp number लिहा'); return; }
-  // Free registration — redirect to WhatsApp or thank you page
-  alert('✅ Registration Successful! तुम्हाला WhatsApp वर Zoom link मिळेल.');
-  closeModal();
+
+  var btn = document.querySelector('.modal-pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ name: name, email: email, phone: phone, source: 'Landing Page' })
+  })
+  .then(function(r){ return r.json(); })
+  .catch(function(){ return { status: 'success' }; })
+  .finally(function() {
+    closeModal();
+    document.getElementById('m-name').value = '';
+    document.getElementById('m-email').value = '';
+    document.getElementById('m-phone').value = '';
+    btn.disabled = false;
+    btn.textContent = '🎓 FREE मध्ये Seat Confirm करा — Register Now';
+    window.location.href = 'thank-you.html';
+  });
 }
 </script>
 
