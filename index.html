@@ -969,7 +969,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#0d1030; color:#ff
     <div class="modal-body">
       <input type="text" id="m-name" placeholder="तुमचं पूर्ण नाव *" />
       <input type="email" id="m-email" placeholder="Email Address *" />
-      <input type="tel" id="m-phone" placeholder="WhatsApp Number *" maxlength="10" />
+      <input type="tel" id="m-phone" placeholder="WhatsApp Number (+91) *" inputmode="tel" maxlength="18" />
       <button class="modal-pay-btn" onclick="goToPayment()">
         🎓 FREE मध्ये Seat Confirm करा — Register Now
       </button>
@@ -1015,13 +1015,22 @@ document.getElementById('reg-modal').addEventListener('click', function(e) {
 var PABBLY_URL = 'https://connect.pabbly.com/webhook-listener/webhook/IjU3NjMwNTZkMDYzZTA0MzA1MjY0NTUzNSI_3D_pc/IjU3NjcwNTY5MDYzMjA0MzE1MjY4NTUzYzUxMzUi_pc';
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7QKzDpsvell6x_Ii1-onVAlRpPs1BmghdEpAJrrwNUyHdBvrOjUFG-exF6Hj13Uvl/exec';
 
+// Normalize any phone input to exactly 10 digits.
+// Strips spaces, +, and country/trunk prefixes (+91, 91, 0091, leading 0)
+// by keeping only the last 10 digits.
+function normalizePhone(raw) {
+  var d = String(raw || '').replace(/\D/g, ''); // digits only
+  if (d.length > 10) d = d.slice(-10);          // drop +91 / 91 / 0 / 0091 prefixes
+  return d;
+}
+
 function goToPayment() {
   var name = document.getElementById('m-name').value.trim();
   var email = document.getElementById('m-email').value.trim();
-  var phone = document.getElementById('m-phone').value.trim();
+  var phone = normalizePhone(document.getElementById('m-phone').value);
   if (!name) { alert('कृपया तुमचं नाव लिहा'); return; }
   if (!email || !email.includes('@')) { alert('कृपया valid email लिहा'); return; }
-  if (!phone || phone.length < 10) { alert('कृपया 10 digit WhatsApp number लिहा'); return; }
+  if (phone.length !== 10) { alert('कृपया 10 digit WhatsApp number लिहा'); return; }
 
   var btn = document.querySelector('.modal-pay-btn');
   btn.disabled = true;
