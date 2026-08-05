@@ -1054,14 +1054,16 @@ function goToPayment() {
   fetch(PABBLY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
+    keepalive: true
   }).catch(function(){});
 
   // Also send to Google Sheet backup
   fetch(SCRIPT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
+    keepalive: true
   }).catch(function(){});
 
   // Redirect after short delay to let requests fire
