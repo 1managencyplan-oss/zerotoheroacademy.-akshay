@@ -1053,7 +1053,6 @@ function goToPayment() {
   // Send to Pabbly webhook
   fetch(PABBLY_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     keepalive: true
   }).catch(function(){});
@@ -1061,7 +1060,6 @@ function goToPayment() {
   // Also send to Google Sheet backup
   fetch(SCRIPT_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     keepalive: true
   }).catch(function(){});
